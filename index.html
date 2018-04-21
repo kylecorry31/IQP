@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>WPI Project Display</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="https://js.arcgis.com/4.7/esri/css/main.css">
+  <script src="https://js.arcgis.com/4.7/"></script>
+  <script type="text/javascript" src="libs/qrcode/qrcode.min.js"></script>
+  <script src="app.js"></script>
+</head>
+
+<body>
+    <div id="details" class="shadow-4">
+      <h1 id="detail-title">Worcester Polytechnic Institute, Worcester, MA, USA</h1>
+      <table>
+        <tr>
+          <td class="detail-header">Project:</td>
+          <td class="detail-content">Sustainability Compilation</td>
+        </tr>
+
+        <tr>
+          <td class="detail-header">Authors:</td>
+          <td class="detail-content">Ema Mehuljic, Kyle Corry</td>
+        </tr>
+
+        <tr>
+          <td class="detail-header">Advisors:</td>
+          <td class="detail-content">Prof. Shockey, Prof. Rosenstock, Prof. Mathisen</td>
+        </tr>
+
+        <tr>
+          <td class="detail-header">Type:</td>
+          <td class="detail-content">IQP</td>
+        </tr>
+
+        <tr>
+          <td class="detail-header">Year:</td>
+          <td class="detail-content">2018 - 2019</td>
+        </tr>
+
+        <tr>
+          <td class="detail-header">Description:</td>
+          <td class="detail-content">Creating a way for students to learn more and become part of the sustainability community of  Worcester and WPI's IQPs.</td>
+        </tr>
+      </table>
+
+      <div class="qrcode" id="detail-qrcode"></div>
+
+    </div>
+      <div id="viewDiv"></div>
+</body>
+
+</html>
