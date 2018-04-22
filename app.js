@@ -123,14 +123,7 @@ require([
 
       globe.addLayer(csvLayer);
 
-      var qrcode = new QRCode(document.getElementById("detail-qrcode"), {
-          text: "https://www.wpi.edu",
-          width: 250,
-          height: 250,
-          colorDark : "#000000",
-          colorLight : "#ffffff",
-          correctLevel : QRCode.CorrectLevel.H
-      });
+      var qrcode = new QRCodeManager(document.getElementById("detail-qrcode"), "http://www.wpi.edu");
 
-
+      // EventBus.publish("qr-code", "http://www.wpi.edu");
     });
