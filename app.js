@@ -148,7 +148,27 @@ require([
       var qrcode = new QRCodeManager(document.getElementById("detail-qrcode"), "http://www.wpi.edu");
 
       document.getElementById("globeToggle").checked = true;
+      document.getElementById("kioskToggle").checked = false;
+
+      EventBus.subscribe("kiosk", function(isKiosk){
+        var iqpURL = document.getElementById("iqp-url");
+        if(isKiosk){
+          EventBus.publish("qr-code", "http://www.wpi.edu");
+          iqpURL.style.display = "none";
+        } else {
+          EventBus.publish("qr-code", "");
+          iqpURL.style.display = "inherit";
+        }
+      });
+
+      EventBus.publish("kiosk", false);
+
     });
+
+function kioskStateChanged(){
+    var sw = document.getElementById("kioskToggle");
+    EventBus.publish("kiosk", sw.checked);
+}
 
 function displayGlobeStateChanged(){
   var sw = document.getElementById("globeToggle");

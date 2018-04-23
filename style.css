@@ -7,6 +7,10 @@ body {
   width: 100%;
 }
 
+a {
+  font-size: 18px;
+}
+
 #viewDiv {
   height: 100%;
   flex-grow: 1;
