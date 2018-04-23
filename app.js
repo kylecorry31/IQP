@@ -127,3 +127,13 @@ require([
 
       // EventBus.publish("qr-code", "http://www.wpi.edu");
     });
+
+function displayGlobeStateChanged(){
+  var globe = document.getElementById("viewDiv");
+  var sw = document.getElementById("globeToggle");
+  if(sw.checked){
+    globe.style.display = "none";
+  } else {
+    globe.style.display = "inherit";
+  }
+}
