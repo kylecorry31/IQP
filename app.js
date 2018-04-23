@@ -1,4 +1,15 @@
 var Globe = function(ArcGIS, containerID, center, zoom){
+
+  var container = document.getElementById(containerID);
+
+  EventBus.subscribe("globe-visible", function(visible){
+    if(visible){
+      container.style.display = "inherit";
+    } else {
+      container.style.display = "none";
+    }
+  });
+
 	var map = new ArcGIS.Map({
         basemap: "hybrid",
         layers: []
@@ -14,6 +25,17 @@ var Globe = function(ArcGIS, containerID, center, zoom){
 	    zoom: zoom,
 	    map: map
 	});
+
+  this.goTo = function(coords){
+    this.view.goTo({
+        center: [coords.latitude, coords.longitude],
+        zoom: coords.zoom,
+        heading: 0,
+        tilt: 0
+      });
+  };
+
+  EventBus.subscribe("globe-center", this.goTo.bind(this));
 };
 
 require([
@@ -125,15 +147,10 @@ require([
 
       var qrcode = new QRCodeManager(document.getElementById("detail-qrcode"), "http://www.wpi.edu");
 
-      // EventBus.publish("qr-code", "http://www.wpi.edu");
+      document.getElementById("globeToggle").checked = true;
     });
 
 function displayGlobeStateChanged(){
-  var globe = document.getElementById("viewDiv");
   var sw = document.getElementById("globeToggle");
-  if(sw.checked){
-    globe.style.display = "none";
-  } else {
-    globe.style.display = "inherit";
-  }
+  EventBus.publish("globe-visible", sw.checked);
 }

@@ -1,4 +1,4 @@
-var QRCodeManager = function(domElement, text = "", size = 250){
+var QRCodeManager = function(domElement, text = "", size = 200){
 	this.qr = new QRCode(domElement, {
           text: text,
           width: size,
