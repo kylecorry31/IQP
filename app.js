@@ -33,6 +33,9 @@ var Globe = function(containerID, center, zoom) {
         center: center,
         zoom: zoom
     };
+
+    var markers = {};
+
     var earth = new WE.map(containerID, options);
     // Several different tile servers, maybe find a better one
 
@@ -62,13 +65,21 @@ var Globe = function(containerID, center, zoom) {
         }
     });
 
-    this.addPoint = function(location, html) {
+    this.addPoint = function(id, location, html) {
       var marker = WE.marker(location).addTo(earth);
       marker.bindPopup(html, {
           maxWidth: 150,
           closeButton: true
       });
-    }
+      markers[id] = marker;
+    };
+
+    this.removePoint = function(id){
+        if(markers[id]){
+          markers[id].removeFrom(earth);
+          delete markers[id];
+        }
+      };
 
     this.goTo = function(coords) {
       // TODO: zoom
@@ -84,9 +95,9 @@ var Globe = function(containerID, center, zoom) {
 
 document.addEventListener("DOMContentLoaded", function() {
     var globe = new Globe("viewDiv", [42, -71], 4);
-
+    var count = 0;
     iqps.forEach(function(iqp){
-      globe.addPoint([iqp.location.latitude, iqp.location.longitude], iqp.project);
+      globe.addPoint(count++, [iqp.location.latitude, iqp.location.longitude], iqp.project);
     });
 
     var qrcode = new QRCodeManager(document.getElementById("detail-qrcode"), "http://www.wpi.edu");

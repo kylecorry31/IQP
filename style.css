@@ -5,6 +5,7 @@ body {
   margin: 0;
   height: 100%;
   width: 100%;
+  background-color: #f2f2f2;
 }
 
 a {
@@ -46,7 +47,6 @@ a {
 #details {
   background: #f2f2f2;
   color: rgba(0, 0, 0, 0.87);
-  height: 100vh;
   text-align: center;
   flex-grow: 1;
   flex-basis: 40%;
