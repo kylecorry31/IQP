@@ -110,3 +110,17 @@ a {
   margin: auto;
   padding: 16px;
 }
+
+.mdl-list__item {
+  padding-top: 32px !important;
+  padding-bottom: 32px !important;
+  text-align: left;
+}
+
+.mdl-list__item.mdl-js-ripple-effect { 
+  position: relative;
+}
+
+.hidden {
+  display: none;
+}
