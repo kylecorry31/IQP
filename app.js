@@ -28,7 +28,7 @@ var Globe = function(ArcGIS, containerID, center, zoom){
 
   this.goTo = function(coords){
     this.view.goTo({
-        center: [coords.latitude, coords.longitude],
+        center: [coords.longitude, coords.latitude],
         zoom: coords.zoom,
         heading: 0,
         tilt: 0
@@ -156,12 +156,18 @@ require([
           EventBus.publish("qr-code", "http://www.wpi.edu");
           iqpURL.style.display = "none";
         } else {
-          EventBus.publish("qr-code", "");
-          iqpURL.style.display = "inherit";
+          EventBus.publish("qr-code", false);
+          iqpURL.style.display = "inline";
         }
       });
 
       EventBus.publish("kiosk", false);
+
+      EventBus.subscribe("iqp-url", function(url){
+        // TODO: fix this
+        EventBus.publish("qr-code", url);
+        document.getElementById("iqp-url").innerHTML = url;
+      });
 
     });
 

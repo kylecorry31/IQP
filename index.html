@@ -64,11 +64,15 @@
       <div class="switch">
         <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="kioskToggle">
           <input type="checkbox" id="kioskToggle" class="mdl-switch__input" oninput="kioskStateChanged();">
-          <span class="mdl-switch__label">Is Kiosk</span>
+          <span class="mdl-switch__label">Kiosk Mode</span>
         </label>
       </div>
 
-      <a href="https://www.wpi.edu" id="iqp-url">www.wpi.edu</a>
+      <a href="https://www.wpi.edu" id="iqp-url">www.wpi.edu</a><br>
+
+      <br>
+        <button class="mdl-button mdl-button--colored mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="EventBus.publish('globe-center', {latitude: 42.2746, longitude: -71.8063, zoom: 10});">Go to WPI</button> <br>
+
       <div class="qrcode" id="detail-qrcode"></div>
 
     </div>

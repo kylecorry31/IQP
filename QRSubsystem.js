@@ -10,9 +10,9 @@ var QRCodeManager = function(domElement, text = "", size = 200){
 
     this.setText = function(text){
     	if(!text){
-    		domElement.style.visibility = "hidden";
+    		domElement.style.display = "none";
     	} else {
-    		domElement.style.visibility = "visible";
+    		domElement.style.display = "inline-block";
     	}
     	this.qr.clear();
     	this.qr.makeCode(text);
