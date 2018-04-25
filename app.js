@@ -28,7 +28,17 @@ var iqps = [{
   id: 1
 }];
 
-var Globe = function(containerID, center, zoom) {
+var GLOBE_TYPES = Object.freeze(
+  {
+    NASA: 1,
+    GLOBE: 2,
+    WATER_COLOR: 3,
+    TERRAIN: 4,
+    OSM: 5,
+    NATURAL: 6
+  });
+
+var Globe = function(containerID, center, zoom, globe_type = GLOBE_TYPES.NASA) {
 
   var options = {
     atmosphere: true,
@@ -41,34 +51,43 @@ var Globe = function(containerID, center, zoom) {
   var earth = new WE.map(containerID, options);
   // Several different tile servers, maybe find a better one
 
-  WE.tileLayer('http://tileserver.maptiler.com/nasa/{z}/{x}/{y}.jpg', {
-      minZoom: 0,
-      maxZoom: 5,
-      attribution: 'NASA'
-    }).addTo(earth);
+  switch (globe_type){
+    case GLOBE_TYPES.NASA:
+      WE.tileLayer('https://tileserver.maptiler.com/nasa/{z}/{x}/{y}.jpg', {
+          minZoom: 0,
+          maxZoom: 5,
+          attribution: 'NASA'
+      }).addTo(earth);
+      break;
+    case GLOBE_TYPES.GLOBE:
+      WE.tileLayer('http://tileserver.maptiler.com/cassini-terrestrial/{z}/{x}/{y}.jpg', {
+            attribution: 'undefined'
+      }).addTo(earth);
+      break;
+    case GLOBE_TYPES.WATER_COLOR:
+      WE.tileLayer('http://tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
+      }).addTo(earth);
+      break;
+    case GLOBE_TYPES.TERRAIN:
+      WE.tileLayer('http://tile.stamen.com/terrain/{z}/{x}/{y}.jpg', {
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
+      }).addTo(earth);
+      break;
+    case GLOBE_TYPES.OSM:
+      WE.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(earth);
+      break;
+    case GLOBE_TYPES.NATURAL:
+      WE.tileLayer('http://data.webglearth.com/natural-earth-color/{z}/{x}/{y}.jpg', {
+          tileSize: 256,
+          attribution: 'WebGLEarth example',
+          tms: true
+        }).addTo(earth);
+        break;
+  }
 
-// WE.tileLayer('http://tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
-//     // minZoom: 0,
-//     // maxZoom: 6,
-//     attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
-//   }).addTo(earth);
-  // WE.tileLayer('http://tile.stamen.com/terrain/{z}/{x}/{y}.jpg', {
-  //     // minZoom: 0,
-  //     // maxZoom: 6,
-  //     attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
-  //   }).addTo(earth);
-
-  // WE.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-  //       attribution: '© OpenStreetMap contributors'
-  //     }).addTo(earth);
-  // WE.tileLayer('http://data.webglearth.com/natural-earth-color/{z}/{x}/{y}.jpg', {
-  //       tileSize: 256,
-  //       // bounds: [[-85, -180], [85, 180]],
-  //       // minZoom: 0,
-  //       // maxZoom: 16,
-  //       attribution: 'WebGLEarth example',
-  //       tms: true
-  //     }).addTo(earth);
   var container = document.getElementById(containerID);
 
   EventBus.subscribe("globe-visible", function(visible) {
@@ -175,7 +194,7 @@ function displayGlobeStateChanged() {
 
 class IQPGlobe {
   constructor(elementID) {
-    this.globe = new Globe(elementID, [42, -71], 4);
+    this.globe = new Globe(elementID, [42, -71], 4, GLOBE_TYPES.WATER_COLOR);
     EventBus.subscribe("iqp-added", function(iqp) {
       this.globe.addPoint(iqp.id, [iqp.location.latitude, iqp.location.longitude], "<b>" + iqp.project + "</b><br>" + iqp.location.name);
     }.bind(this));
