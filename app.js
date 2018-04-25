@@ -42,10 +42,22 @@ var Globe = function(containerID, center, zoom) {
   // Several different tile servers, maybe find a better one
 
   WE.tileLayer('http://tileserver.maptiler.com/nasa/{z}/{x}/{y}.jpg', {
-    minZoom: 0,
-    maxZoom: 6,
-    attribution: 'NASA'
-  }).addTo(earth);
+      minZoom: 0,
+      maxZoom: 5,
+      attribution: 'NASA'
+    }).addTo(earth);
+
+// WE.tileLayer('http://tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
+//     // minZoom: 0,
+//     // maxZoom: 6,
+//     attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
+//   }).addTo(earth);
+  // WE.tileLayer('http://tile.stamen.com/terrain/{z}/{x}/{y}.jpg', {
+  //     // minZoom: 0,
+  //     // maxZoom: 6,
+  //     attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
+  //   }).addTo(earth);
+
   // WE.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
   //       attribution: '© OpenStreetMap contributors'
   //     }).addTo(earth);
