@@ -138,6 +138,8 @@ document.addEventListener("DOMContentLoaded", function() {
     EventBus.publish("iqp-added", iqp);
   });
 
+  var idleTimer = new IdleTimer(1000 * 60, goHome);
+
   var details = new DetailsPanel(document.getElementById("iqp-details"));
 
   document.getElementById("globeToggle").checked = true;
@@ -159,6 +161,10 @@ document.addEventListener("DOMContentLoaded", function() {
   showIQPList(iqps);
 
 });
+
+function goHome(){
+  location.reload();
+}
 
 function showIQPList(iqps) {
   var iqpList = document.getElementById("iqp-list");
@@ -230,3 +236,24 @@ class DetailsPanel {
   }
 
 }
+
+class IdleTimer {
+  constructor(timeout, onTimeOutFn){
+    this.t = undefined;
+    document.onload = this.resetTimer.bind(this);
+    document.onmousemove = this.resetTimer.bind(this);
+    document.onmousedown = this.resetTimer.bind(this); // touchscreen presses
+    document.ontouchstart = this.resetTimer.bind(this);
+    document.onclick = this.resetTimer.bind(this);     // touchpad clicks
+    document.onscroll = this.resetTimer.bind(this);    // scrolling with arrow keys
+    document.onkeypress = this.resetTimer.bind(this);
+    this.resetTimer();
+    this.timeout = timeout;
+    this.onTimeOutFn = onTimeOutFn;
+  }
+
+    resetTimer() {
+        clearTimeout(this.t);
+        this.t = setTimeout(this.onTimeOutFn, this.timeout);
+    }
+  }
