@@ -99,7 +99,7 @@ var Globe = function(containerID, center, zoom, globe_type = GLOBE_TYPES.NASA) {
   });
 
   this.addPoint = function(id, location, html) {
-    var marker = WE.marker(location).addTo(earth);
+    var marker = WE.marker(location, 'iqp-marker.png', 34, 48).addTo(earth);
     marker.bindPopup(html, {
       maxWidth: 150,
       closeButton: true
@@ -122,6 +122,7 @@ var Globe = function(containerID, center, zoom, globe_type = GLOBE_TYPES.NASA) {
 
   this.goTo = function(coords) {
     // TODO: zoom
+    earth.zoomIn(coords.zoom);
     earth.panTo(
       [coords.latitude, coords.longitude]
     );
@@ -143,7 +144,6 @@ document.addEventListener("DOMContentLoaded", function() {
   var details = new DetailsPanel(document.getElementById("iqp-details"));
 
   document.getElementById("globeToggle").checked = true;
-  document.getElementById("kioskToggle").checked = false;
 
   EventBus.subscribe("kiosk", function(isKiosk) {
     var iqpURL = document.getElementById("iqp-url");
@@ -156,7 +156,13 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
-  EventBus.publish("kiosk", false);
+  var url = window.location.search.substr(1);
+
+  if (url.indexOf("kiosk") !== -1) {
+      EventBus.publish("kiosk", true);
+  } else {
+    EventBus.publish("kiosk", false);
+  }
 
   showIQPList(iqps);
 
@@ -197,10 +203,9 @@ function displayGlobeStateChanged() {
   EventBus.publish("globe-visible", sw.checked);
 }
 
-
 class IQPGlobe {
   constructor(elementID) {
-    this.globe = new Globe(elementID, [42, -71], 4, GLOBE_TYPES.WATER_COLOR);
+    this.globe = new Globe(elementID, [42, -71], 4, GLOBE_TYPES.NATURAL);
     EventBus.subscribe("iqp-added", function(iqp) {
       this.globe.addPoint(iqp.id, [iqp.location.latitude, iqp.location.longitude], "<b>" + iqp.project + "</b><br>" + iqp.location.name);
     }.bind(this));

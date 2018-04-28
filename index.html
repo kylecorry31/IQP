@@ -23,19 +23,7 @@
   <div class="display">
     <div id="details">
       <h2 id="detail-title" class="shadow-2" onclick="goHome();">IQPs</h2>
-      <div class="switch">
-        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="globeToggle">
-          <input type="checkbox" id="globeToggle" class="mdl-switch__input" checked oninput="displayGlobeStateChanged();">
-          <span class="mdl-switch__label">Show Globe</span>
-        </label>
-      </div>
 
-      <div class="switch">
-        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="kioskToggle">
-          <input type="checkbox" id="kioskToggle" class="mdl-switch__input" oninput="kioskStateChanged();">
-          <span class="mdl-switch__label">Kiosk Mode</span>
-        </label>
-      </div>
 
       <ul class="mdl-list" id="iqp-list">
       </ul>
@@ -76,6 +64,14 @@
       <a href="https://www.wpi.edu" id="iqp-url">www.wpi.edu</a>
 
       <div class="qrcode" id="detail-qrcode"></div>
+
+
+    </div>
+    <div class="switch" id="show-globe-toggle">
+      <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="globeToggle">
+        <input type="checkbox" id="globeToggle" class="mdl-switch__input" checked oninput="displayGlobeStateChanged();">
+        <span class="mdl-switch__label">Show Globe</span>
+      </label>
     </div>
     </div>
 
