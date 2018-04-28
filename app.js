@@ -55,7 +55,7 @@ var iqps = [{
   url: "https://en.wikipedia.org/wiki/Antarctica",
   id: 3
 }, {
-  project: "Amazon Search",
+  project: "Amazon",
   location: {
     name: "Amazon River, Brazil",
     latitude: -2.163106,
