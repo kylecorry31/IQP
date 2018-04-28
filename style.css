@@ -50,6 +50,7 @@ a {
   text-align: center;
   flex-grow: 1;
   flex-basis: 40%;
+  overflow: auto;
 }
 
 #detail-title {

@@ -26,6 +26,48 @@ var iqps = [{
   description: "Description here",
   url: "https://kylecorry31.github.io",
   id: 1
+}, {
+  project: "Project",
+  location: {
+    name: "Acadia, ME, USA",
+    latitude: 44.3386,
+    longitude: -68.2733
+  },
+  authors: ["Kyle Corry"],
+  advisors: ["Nobody"],
+  type: "IQP",
+  year: "2017 - 2018",
+  description: "Description",
+  url: "https://www.nps.gov/acad/index.htm",
+  id: 2
+}, {
+  project: "Ice Project",
+  location: {
+    name: "Antarctica",
+    latitude: -82.8628,
+    longitude: 135
+  },
+  authors: ["Kyle Corry"],
+  advisors: ["Nobody"],
+  type: "IQP",
+  year: "2017 - 2018",
+  description: "Description",
+  url: "https://en.wikipedia.org/wiki/Antarctica",
+  id: 3
+}, {
+  project: "Amazon Search",
+  location: {
+    name: "Amazon River, Brazil",
+    latitude: -2.163106,
+    longitude: -55.126648
+  },
+  authors: ["Kyle Corry"],
+  advisors: ["Nobody"],
+  type: "IQP",
+  year: "2017 - 2018",
+  description: "Description",
+  url: "https://en.wikipedia.org/wiki/Amazon_River",
+  id: 4
 }];
 
 var GLOBE_TYPES = Object.freeze(
@@ -98,12 +140,14 @@ var Globe = function(containerID, center, zoom, globe_type = GLOBE_TYPES.NASA) {
     }
   });
 
-  this.addPoint = function(id, location, html) {
-    var marker = WE.marker(location, 'iqp-marker.png', 34, 48).addTo(earth);
-    marker.bindPopup(html, {
-      maxWidth: 150,
-      closeButton: true
-    });
+  this.addPoint = function(id, location, onClickFn, optURL) {
+    var marker = WE.marker(location, optURL ? optURL : 'iqp-marker.png', 34, 48).addTo(earth);
+    if(onClickFn){
+      marker.on('click', function(data){
+        onClickFn(data);
+        
+      });
+    }
     markers[id] = marker;
   };
 
@@ -122,7 +166,7 @@ var Globe = function(containerID, center, zoom, globe_type = GLOBE_TYPES.NASA) {
 
   this.goTo = function(coords) {
     // TODO: zoom
-    earth.zoomIn(coords.zoom);
+    // earth.zoomIn(coords.zoom);
     earth.panTo(
       [coords.latitude, coords.longitude]
     );
@@ -135,6 +179,7 @@ var Globe = function(containerID, center, zoom, globe_type = GLOBE_TYPES.NASA) {
 
 document.addEventListener("DOMContentLoaded", function() {
   var globe = new IQPGlobe("viewDiv");
+
   iqps.forEach(function(iqp) {
     EventBus.publish("iqp-added", iqp);
   });
@@ -205,13 +250,18 @@ function displayGlobeStateChanged() {
 
 class IQPGlobe {
   constructor(elementID) {
+    this.selectedIQP = null;
     this.globe = new Globe(elementID, [42, -71], 4, GLOBE_TYPES.NATURAL);
     EventBus.subscribe("iqp-added", function(iqp) {
-      this.globe.addPoint(iqp.id, [iqp.location.latitude, iqp.location.longitude], "<b>" + iqp.project + "</b><br>" + iqp.location.name);
+      this.globe.addPoint(iqp.id, [iqp.location.latitude, iqp.location.longitude], function(){
+        EventBus.publish("iqp", iqp);
+      }, 'iqp-marker.png');
     }.bind(this));
 
     EventBus.subscribe("iqp", function(iqp) {
+      this.globe.removePoint(-1);
       this.globe.goTo(iqp.location);
+      this.globe.addPoint(-1, [iqp.location.latitude, iqp.location.longitude], undefined, 'iqp-marker-selected.png');
     }.bind(this));
   }
 }
