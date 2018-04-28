@@ -118,10 +118,21 @@ a {
   text-align: left;
 }
 
-.mdl-list__item.mdl-js-ripple-effect { 
+.mdl-list__item.mdl-js-ripple-effect {
   position: relative;
 }
 
 .hidden {
   display: none;
+}
+
+
+@media (max-width: 1280px) {
+  #viewDiv {
+    display: none;
+  }
+
+  #show-globe-toggle {
+    display: none;
+  }
 }
