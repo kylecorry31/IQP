@@ -30,27 +30,27 @@ var Globe = function(containerID, center, zoom, globe_type = GLOBE_TYPES.NASA) {
       }).addTo(earth);
       break;
     case GLOBE_TYPES.GLOBE:
-      WE.tileLayer('http://tileserver.maptiler.com/cassini-terrestrial/{z}/{x}/{y}.jpg', {
+      WE.tileLayer('https://tileserver.maptiler.com/cassini-terrestrial/{z}/{x}/{y}.jpg', {
             attribution: 'undefined'
       }).addTo(earth);
       break;
     case GLOBE_TYPES.WATER_COLOR:
-      WE.tileLayer('http://tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
-        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
+      WE.tileLayer('https://tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
+        attribution: 'Map tiles by <a href="https://stamen.com">Stamen Design</a>, under <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="https://openstreetmap.org">OpenStreetMap</a>, under <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
       }).addTo(earth);
       break;
     case GLOBE_TYPES.TERRAIN:
-      WE.tileLayer('http://tile.stamen.com/terrain/{z}/{x}/{y}.jpg', {
-        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
+      WE.tileLayer('https://tile.stamen.com/terrain/{z}/{x}/{y}.jpg', {
+        attribution: 'Map tiles by <a href="https://stamen.com">Stamen Design</a>, under <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="https://openstreetmap.org">OpenStreetMap</a>, under <a href="https://www.openstreetmap.org/copyright">ODbL</a>.'
       }).addTo(earth);
       break;
     case GLOBE_TYPES.OSM:
-      WE.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+      WE.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
         attribution: '© OpenStreetMap contributors'
       }).addTo(earth);
       break;
     case GLOBE_TYPES.NATURAL:
-      WE.tileLayer('http://data.webglearth.com/natural-earth-color/{z}/{x}/{y}.jpg', {
+      WE.tileLayer('https://data.webglearth.com/natural-earth-color/{z}/{x}/{y}.jpg', {
           tileSize: 256,
           attribution: 'WebGLEarth example',
           tms: true
