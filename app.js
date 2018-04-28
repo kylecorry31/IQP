@@ -125,9 +125,11 @@ document.addEventListener("DOMContentLoaded", function() {
     if (isKiosk) {
       EventBus.publish("qr-code-visible", true);
       iqpURL.classList.add("hidden");
+      document.getElementById("globeToggle").classList.add("hidden");
     } else {
       EventBus.publish("qr-code-visible", false);
       iqpURL.classList.remove("hidden");
+      document.getElementById("globeToggle").classList.remove("hidden");
     }
   });
 
