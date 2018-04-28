@@ -35,13 +35,13 @@ var Globe = function(containerID, center, zoom, globe_type = GLOBE_TYPES.NASA) {
       }).addTo(earth);
       break;
     case GLOBE_TYPES.WATER_COLOR:
-      WE.tileLayer('https://tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
-        attribution: 'Map tiles by <a href="https://stamen.com">Stamen Design</a>, under <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="https://openstreetmap.org">OpenStreetMap</a>, under <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
+      WE.tileLayer('http://tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
       }).addTo(earth);
       break;
     case GLOBE_TYPES.TERRAIN:
-      WE.tileLayer('https://tile.stamen.com/terrain/{z}/{x}/{y}.jpg', {
-        attribution: 'Map tiles by <a href="https://stamen.com">Stamen Design</a>, under <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="https://openstreetmap.org">OpenStreetMap</a>, under <a href="https://www.openstreetmap.org/copyright">ODbL</a>.'
+      WE.tileLayer('http://tile.stamen.com/terrain/{z}/{x}/{y}.jpg', {
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
       }).addTo(earth);
       break;
     case GLOBE_TYPES.OSM:
@@ -106,42 +106,7 @@ var Globe = function(containerID, center, zoom, globe_type = GLOBE_TYPES.NASA) {
 };
 
 document.addEventListener("DOMContentLoaded", function() {
-  var globe = new IQPGlobe("viewDiv");
-
-  var iqpList = new IQPList(document.getElementById("iqp-list"));
-
-  var iqpLoader = new IQPLoader('iqps.csv');
-
-  var idleTimer = new IdleTimer(1000 * 60, goHome);
-
-  var details = new DetailsPanel(document.getElementById("iqp-details"));
-
-  document.getElementById("globeToggle").checked = true;
-
-  EventBus.subscribe("kiosk", function(isKiosk) {
-    var iqpURL = document.getElementById("iqp-url");
-    if (isKiosk) {
-      EventBus.publish("qr-code-visible", true);
-      iqpURL.classList.add("hidden");
-      document.getElementById("globeToggle").classList.add("hidden");
-    } else {
-      EventBus.publish("qr-code-visible", false);
-      iqpURL.classList.remove("hidden");
-      document.getElementById("globeToggle").classList.remove("hidden");
-    }
-  });
-
-  var url = window.location.search.substr(1);
-
-  if (url.indexOf("kiosk") !== -1) {
-      EventBus.publish("kiosk", true);
-  } else {
-    EventBus.publish("kiosk", false);
-  }
-
-  // TODO: Make an IQP list object which watches iqp-added
-  // showIQPList(iqps);
-
+  var app = new Application();
 });
 
 function goHome(){
@@ -156,6 +121,43 @@ function kioskStateChanged() {
 function displayGlobeStateChanged() {
   var sw = document.getElementById("globeToggle");
   EventBus.publish("globe-visible", sw.checked);
+}
+
+class Application {
+  constructor(){
+    var globe = new IQPGlobe("viewDiv");
+
+    var iqpList = new IQPList(document.getElementById("iqp-list"));
+
+    var iqpLoader = new IQPLoader('iqps.csv');
+
+    var idleTimer = new IdleTimer(1000 * 60, goHome);
+
+    var details = new DetailsPanel(document.getElementById("iqp-details"));
+
+    document.getElementById("globeToggle").checked = true;
+
+    EventBus.subscribe("kiosk", function(isKiosk) {
+      var iqpURL = document.getElementById("iqp-url");
+      if (isKiosk) {
+        EventBus.publish("qr-code-visible", true);
+        iqpURL.classList.add("hidden");
+        document.getElementById("globeToggle").classList.add("hidden");
+      } else {
+        EventBus.publish("qr-code-visible", false);
+        iqpURL.classList.remove("hidden");
+        document.getElementById("globeToggle").classList.remove("hidden");
+      }
+    });
+
+    var url = window.location.search.substr(1);
+
+    if (url.indexOf("kiosk") !== -1) {
+        EventBus.publish("kiosk", true);
+    } else {
+      EventBus.publish("kiosk", false);
+    }
+  }
 }
 
 class IQPGlobe {
@@ -195,9 +197,10 @@ class DetailsPanel {
     table.rows[0].cells[1].innerHTML = iqp.location.name;
     table.rows[1].cells[1].innerHTML = iqp.authors;
     table.rows[2].cells[1].innerHTML = iqp.advisors;
-    table.rows[3].cells[1].innerHTML = iqp.type;
-    table.rows[4].cells[1].innerHTML = iqp.year;
-    table.rows[5].cells[1].innerHTML = iqp.description;
+    table.rows[3].cells[1].innerHTML = iqp.sponsor;
+    table.rows[4].cells[1].innerHTML = iqp.type;
+    table.rows[5].cells[1].innerHTML = iqp.date;
+    table.rows[6].cells[1].innerHTML = iqp.description;
   }
 
 }
@@ -281,8 +284,9 @@ class IQPLoader {
                 },
                 authors: iqpInfo.authors, // TODO: Add better string splitting
                 advisors: iqpInfo.advisors,
+                sponsor: iqpInfo.sponsor,
                 type: iqpInfo.type,
-                year: iqpInfo.year,
+                date: iqpInfo.date,
                 description: iqpInfo.description,
                 url: iqpInfo.url,
                 id: i
