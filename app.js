@@ -1,75 +1,3 @@
-var iqps = [{
-  project: "Sustainability Compilation",
-  location: {
-    name: "Worcester Polytechnic Institute, Worcester, MA, USA",
-    latitude: 42.2746,
-    longitude: -71.8063
-  },
-  authors: ["Ema Mehuljic", "Kyle Corry"],
-  advisors: ["Prof. Shockey", "Prof. Rosenstock", "Prof. Mathisen"],
-  type: "IQP",
-  year: "2018 - 2019",
-  description: "Creating a way for students to learn more and become part of the sustainability community of Worcester and WPI's IQPs.",
-  url: "https://www.wpi.edu",
-  id: 0
-}, {
-  project: "Something Else",
-  location: {
-    name: "Chepachet, RI, USA",
-    latitude: 41.9152,
-    longitude: -71.6714
-  },
-  authors: ["Kyle Corry"],
-  advisors: ["Nobody"],
-  type: "IQP",
-  year: "2017 - 2018",
-  description: "Description here",
-  url: "https://kylecorry31.github.io",
-  id: 1
-}, {
-  project: "Project",
-  location: {
-    name: "Acadia, ME, USA",
-    latitude: 44.3386,
-    longitude: -68.2733
-  },
-  authors: ["Kyle Corry"],
-  advisors: ["Nobody"],
-  type: "IQP",
-  year: "2017 - 2018",
-  description: "Description",
-  url: "https://www.nps.gov/acad/index.htm",
-  id: 2
-}, {
-  project: "Ice Project",
-  location: {
-    name: "Antarctica",
-    latitude: -82.8628,
-    longitude: 135
-  },
-  authors: ["Kyle Corry"],
-  advisors: ["Nobody"],
-  type: "IQP",
-  year: "2017 - 2018",
-  description: "Description",
-  url: "https://en.wikipedia.org/wiki/Antarctica",
-  id: 3
-}, {
-  project: "Amazon",
-  location: {
-    name: "Amazon River, Brazil",
-    latitude: -2.163106,
-    longitude: -55.126648
-  },
-  authors: ["Kyle Corry"],
-  advisors: ["Nobody"],
-  type: "IQP",
-  year: "2017 - 2018",
-  description: "Description",
-  url: "https://en.wikipedia.org/wiki/Amazon_River",
-  id: 4
-}];
-
 var GLOBE_TYPES = Object.freeze(
   {
     NASA: 1,
@@ -145,7 +73,7 @@ var Globe = function(containerID, center, zoom, globe_type = GLOBE_TYPES.NASA) {
     if(onClickFn){
       marker.on('click', function(data){
         onClickFn(data);
-        
+
       });
     }
     markers[id] = marker;
@@ -180,9 +108,11 @@ var Globe = function(containerID, center, zoom, globe_type = GLOBE_TYPES.NASA) {
 document.addEventListener("DOMContentLoaded", function() {
   var globe = new IQPGlobe("viewDiv");
 
-  iqps.forEach(function(iqp) {
-    EventBus.publish("iqp-added", iqp);
-  });
+  var iqpLoader = new IQPLoader('iqps.csv');
+
+  // iqps.forEach(function(iqp) {
+  //   EventBus.publish("iqp-added", iqp);
+  // });
 
   var idleTimer = new IdleTimer(1000 * 60, goHome);
 
@@ -209,7 +139,8 @@ document.addEventListener("DOMContentLoaded", function() {
     EventBus.publish("kiosk", false);
   }
 
-  showIQPList(iqps);
+  // TODO: Make an IQP list object which watches iqp-added
+  // showIQPList(iqps);
 
 });
 
@@ -219,23 +150,29 @@ function goHome(){
 
 function showIQPList(iqps) {
   var iqpList = document.getElementById("iqp-list");
-  var iqpString = "";
-  var count = 0;
-  iqps.forEach(function(iqp) { // TODO: Make actual elements
-    var li = '<li class="mdl-list__item mdl-js-ripple-effect mdl-list__item--three-line" onclick="EventBus.publish(\'iqp\', iqps[' + count + ']);">\
-          <span class="mdl-ripple"></span>\
-          <span class="mdl-list__item-primary-content">\
-            <span>' + iqp.project + '</span>\
-          <span class="mdl-list__item-text-body">' +
-      iqp.location.name +
-      '</span>\
-          </span>\
-        </li>';
-    iqpString += li;
-    count++;
-  });
+  iqpList.innerHTML = "";
+  iqps.forEach(function(iqp) {
+    var li = document.createElement('li');
+    li.classList.add('mdl-list__item', 'mdl-js-ripple-effect', 'mdl-list__item--three-line')
+    li.addEventListener("click", function(){
+      EventBus.publish('iqp', iqp);
+    });
+    var ripple = document.createElement('span');
+    ripple.classList.add('mdl-ripple');
+    var listContent = document.createElement('span');
+    listContent.classList.add('mdl-list__item-primary-content');
+    var projectName = document.createElement('span');
+    projectName.innerText = iqp.project;
+    var locationName = document.createElement('span');
+    locationName.classList.add("mdl-list__item-text-body")
+    locationName.innerText = iqp.location.name;
 
-  iqpList.innerHTML = iqpString;
+    listContent.appendChild(projectName);
+    listContent.appendChild(locationName);
+    li.appendChild(ripple);
+    li.appendChild(listContent);
+    iqpList.appendChild(li);
+  });
 }
 
 function kioskStateChanged() {
@@ -283,8 +220,8 @@ class DetailsPanel {
     var table = document.getElementById("detail-table");
 
     table.rows[0].cells[1].innerHTML = iqp.location.name;
-    table.rows[1].cells[1].innerHTML = iqp.authors.join(", ");
-    table.rows[2].cells[1].innerHTML = iqp.advisors.join(", ");
+    table.rows[1].cells[1].innerHTML = iqp.authors;
+    table.rows[2].cells[1].innerHTML = iqp.advisors;
     table.rows[3].cells[1].innerHTML = iqp.type;
     table.rows[4].cells[1].innerHTML = iqp.year;
     table.rows[5].cells[1].innerHTML = iqp.description;
@@ -312,3 +249,44 @@ class IdleTimer {
         this.t = setTimeout(this.onTimeOutFn, this.timeout);
     }
   }
+
+
+class IQPLoader {
+  constructor(iqpFile){
+    this.iqps = [];
+    Papa.parse(iqpFile, {
+	       download: true,
+         header: true,
+         dynamicTyping: true,
+         quotes: true,
+         quoteChar: "'",
+         delimeter: ',',
+        	complete: function(results) {
+        		for (var i = 0; i < results.data.length; i++) {
+        		  var iqpInfo = results.data[i];
+              if(iqpInfo.project == null){
+                continue;
+              }
+              var iqp = {
+                project: iqpInfo.project,
+                location: {
+                  name: iqpInfo.place,
+                  latitude: iqpInfo.latitude,
+                  longitude: iqpInfo.longitude
+                },
+                authors: iqpInfo.authors, // TODO: Add better string splitting
+                advisors: iqpInfo.advisors,
+                type: iqpInfo.type,
+                year: iqpInfo.year,
+                description: iqpInfo.description,
+                url: iqpInfo.url,
+                id: i
+              };
+              this.iqps.push(iqp);
+              EventBus.publish("iqp-added", iqp);
+        		}
+            showIQPList(this.iqps);
+        	}.bind(this)
+    });
+  }
+}

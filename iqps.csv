@@ -1,8 +1,3 @@
-place,latitude,longitude,authors
-WPI,42.2746,-71.8063,"Kyle Corry and Ema Mehuljic"
-Somewhere,-42.2746,71.8063,"Kyle Corry"
-Somewhere else,43,63,"Kyle Corry"
-Here,23,70,"Kyle Corry"
-Wow,2,-71.8063,"Kyle Corry"
-"Hello, world",-60,-1.8063,"Kyle Corry"
-Over here,2.2746,-8,"Kyle Corry"
+'project','place','latitude','longitude','authors','advisors','type','year','description','url'
+'Sustainability Competition','WPI, Worcester, MA, USA',42.2746,-71.8063,'Ema Mehuljic, Kyle Corry','Prof. Shockey, Prof. Rosenstock, Prof. Mathisen','IQP','2018 – 2019','Creating a way for students to learn more and become part of the sustainability community of Worcester and WPI''s IQPs.','https://www.wpi.edu'
+'A cool project','Chepachet, RI, USA',41.9152,-71.6714,'Kyle Corry','Nobody','IQP','2018 – 2019','Nothing','https://kylecorry31.github.io'
