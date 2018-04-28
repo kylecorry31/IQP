@@ -108,11 +108,9 @@ var Globe = function(containerID, center, zoom, globe_type = GLOBE_TYPES.NASA) {
 document.addEventListener("DOMContentLoaded", function() {
   var globe = new IQPGlobe("viewDiv");
 
-  var iqpLoader = new IQPLoader('iqps.csv');
+  var iqpList = new IQPList(document.getElementById("iqp-list"));
 
-  // iqps.forEach(function(iqp) {
-  //   EventBus.publish("iqp-added", iqp);
-  // });
+  var iqpLoader = new IQPLoader('iqps.csv');
 
   var idleTimer = new IdleTimer(1000 * 60, goHome);
 
@@ -148,33 +146,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function goHome(){
   location.reload();
-}
-
-function showIQPList(iqps) {
-  var iqpList = document.getElementById("iqp-list");
-  iqpList.innerHTML = "";
-  iqps.forEach(function(iqp) {
-    var li = document.createElement('li');
-    li.classList.add('mdl-list__item', 'mdl-js-ripple-effect', 'mdl-list__item--three-line')
-    li.addEventListener("click", function(){
-      EventBus.publish('iqp', iqp);
-    });
-    var ripple = document.createElement('span');
-    ripple.classList.add('mdl-ripple');
-    var listContent = document.createElement('span');
-    listContent.classList.add('mdl-list__item-primary-content');
-    var projectName = document.createElement('span');
-    projectName.innerText = iqp.project;
-    var locationName = document.createElement('span');
-    locationName.classList.add("mdl-list__item-text-body")
-    locationName.innerText = iqp.location.name;
-
-    listContent.appendChild(projectName);
-    listContent.appendChild(locationName);
-    li.appendChild(ripple);
-    li.appendChild(listContent);
-    iqpList.appendChild(li);
-  });
 }
 
 function kioskStateChanged() {
@@ -252,6 +223,38 @@ class IdleTimer {
     }
   }
 
+class IQPList {
+  constructor(element){
+    this.element = element
+    this.clear();
+    EventBus.subscribe('iqp-added', function(iqp){
+      var li = document.createElement('li');
+      li.classList.add('mdl-list__item', 'mdl-js-ripple-effect', 'mdl-list__item--three-line')
+      li.addEventListener("click", function(){
+        EventBus.publish('iqp', iqp);
+      });
+      var ripple = document.createElement('span');
+      ripple.classList.add('mdl-ripple');
+      var listContent = document.createElement('span');
+      listContent.classList.add('mdl-list__item-primary-content');
+      var projectName = document.createElement('span');
+      projectName.innerText = iqp.project;
+      var locationName = document.createElement('span');
+      locationName.classList.add("mdl-list__item-text-body")
+      locationName.innerText = iqp.location.name;
+
+      listContent.appendChild(projectName);
+      listContent.appendChild(locationName);
+      li.appendChild(ripple);
+      li.appendChild(listContent);
+      this.element.appendChild(li);
+    }.bind(this));
+  }
+
+  clear(){
+    this.element.innerHTML = "";
+  }
+}
 
 class IQPLoader {
   constructor(iqpFile){
@@ -287,7 +290,6 @@ class IQPLoader {
               this.iqps.push(iqp);
               EventBus.publish("iqp-added", iqp);
         		}
-            showIQPList(this.iqps);
         	}.bind(this)
     });
   }
