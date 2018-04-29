@@ -9,7 +9,6 @@ var GLOBE_TYPES = Object.freeze(
   });
 
 var Globe = function(containerID, center, zoom, globe_type = GLOBE_TYPES.NASA) {
-
   var options = {
     atmosphere: true,
     center: center,
@@ -102,7 +101,7 @@ var Globe = function(containerID, center, zoom, globe_type = GLOBE_TYPES.NASA) {
     // earth.zoomIn(coords.zoom)
   };
 
-  EventBus.subscribe("globe-center", this.goTo.bind(this));
+  // EventBus.subscribe("globe-center", this.goTo.bind(this));
 };
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -135,21 +134,6 @@ class Application {
 
     var details = new DetailsPanel(document.getElementById("iqp-details"));
 
-    document.getElementById("globeToggle").checked = true;
-
-    EventBus.subscribe("kiosk", function(isKiosk) {
-      var iqpURL = document.getElementById("iqp-url");
-      if (isKiosk) {
-        EventBus.publish("qr-code-visible", true);
-        iqpURL.classList.add("hidden");
-        document.getElementById("globeToggle").classList.add("hidden");
-      } else {
-        EventBus.publish("qr-code-visible", false);
-        iqpURL.classList.remove("hidden");
-        document.getElementById("globeToggle").classList.remove("hidden");
-      }
-    });
-
     var url = window.location.search.substr(1);
 
     if (url.indexOf("kiosk") !== -1) {
@@ -159,6 +143,10 @@ class Application {
     }
   }
 }
+
+/*******************************************************************************
+ GLOBE SUBSYSTEM
+*******************************************************************************/
 
 class IQPGlobe {
   constructor(elementID) {
@@ -175,14 +163,42 @@ class IQPGlobe {
       this.globe.goTo(iqp.location);
       this.globe.addPoint(-1, [iqp.location.latitude, iqp.location.longitude], undefined, 'iqp-marker-selected.png');
     }.bind(this));
+
+
+    document.getElementById("globeToggle").checked = true;
+
+    EventBus.subscribe("kiosk", function(isKiosk){
+      if(isKiosk){
+        document.getElementById("show-globe-toggle").classList.add("hidden");
+      } else {
+        document.getElementById("show-globe-toggle").classList.remove("hidden");
+      }
+    }.bind(this));
+
+
   }
 }
+
+/*******************************************************************************
+DETAILS SUBSYSTEM
+*******************************************************************************/
 
 class DetailsPanel {
   constructor(element) {
     this.element = element;
     EventBus.subscribe("iqp", this.showIQP.bind(this));
     this.qrcode = new QRCodeManager(document.getElementById("detail-qrcode"), "");
+
+    EventBus.subscribe("kiosk", function(isKiosk){
+      var iqpURL = document.getElementById("iqp-url");
+      if (isKiosk) {
+        EventBus.publish("qr-code-visible", true);
+        iqpURL.classList.add("hidden");
+      } else {
+        EventBus.publish("qr-code-visible", false);
+        iqpURL.classList.remove("hidden");
+      }
+    }.bind(this));
   }
 
   showIQP(iqp) {
@@ -202,8 +218,11 @@ class DetailsPanel {
     table.rows[5].cells[1].innerHTML = iqp.date;
     table.rows[6].cells[1].innerHTML = iqp.description;
   }
-
 }
+
+/*******************************************************************************
+IDLE TIMER SUBSYSTEM
+*******************************************************************************/
 
 class IdleTimer {
   constructor(timeout, onTimeOutFn){
@@ -225,6 +244,10 @@ class IdleTimer {
         this.t = setTimeout(this.onTimeOutFn, this.timeout);
     }
   }
+
+/*******************************************************************************
+LIST DISPLAY SUBSYSTEM
+*******************************************************************************/
 
 class IQPList {
   constructor(element){
@@ -252,6 +275,8 @@ class IQPList {
       li.appendChild(listContent);
       this.element.appendChild(li);
     }.bind(this));
+
+    EventBus.subscribe("kiosk", function(isKiosk){}.bind(this));
   }
 
   clear(){
@@ -259,6 +284,9 @@ class IQPList {
   }
 }
 
+/*******************************************************************************
+LOADER SUBSYSTEM
+*******************************************************************************/
 class IQPLoader {
   constructor(iqpFile){
     this.iqps = [];
