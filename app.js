@@ -12,7 +12,8 @@ var Globe = function(containerID, center, zoom, globe_type = GLOBE_TYPES.NASA) {
   var options = {
     atmosphere: true,
     center: center,
-    zoom: zoom
+    zoom: zoom,
+    dragging: true
   };
 
   var markers = {};
