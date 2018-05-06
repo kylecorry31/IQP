@@ -152,7 +152,7 @@ class Application {
 class IQPGlobe {
   constructor(elementID) {
     this.selectedIQP = null;
-    this.globe = new Globe(elementID, [42, -71], 4, GLOBE_TYPES.NATURAL);
+    this.globe = new Globe(elementID, [42, -71], 4, GLOBE_TYPES.WATER_COLOR);
     EventBus.subscribe("iqp-added", function(iqp) {
       this.globe.addPoint(iqp.id, [iqp.location.latitude, iqp.location.longitude], function(){
         EventBus.publish("iqp", iqp);
