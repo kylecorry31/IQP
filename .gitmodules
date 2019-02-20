@@ -1,6 +1,3 @@
 [submodule "libs/EventBusJS"]
 	path = libs/EventBusJS
 	url = https://github.com/kylecorry31/EventBusJS
-[submodule "libs/getmdl-select"]
-	path = libs/getmdl-select
-	url = https://github.com/CreativeIT/getmdl-select.git
