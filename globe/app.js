@@ -8,7 +8,7 @@ var GLOBE_TYPES = Object.freeze(
     NATURAL: 6
   });
 
-var Globe = function(containerID, center, zoom, globe_type = GLOBE_TYPES.NASA) {
+var Globe = function(containerID, center, zoom, globe_type = GLOBE_TYPES.GLOBE) {
   var options = {
     atmosphere: true,
     center: center,
@@ -152,7 +152,7 @@ class Application {
 class IQPGlobe {
   constructor(elementID) {
     this.selectedIQP = null;
-    this.globe = new Globe(elementID, [42, -71], 4, GLOBE_TYPES.WATER_COLOR);
+    this.globe = new Globe(elementID, [42, -71], 4, GLOBE_TYPES.GLOBE);
     EventBus.subscribe("iqp-added", function(iqp) {
       this.globe.addPoint(iqp.id, [iqp.location.latitude, iqp.location.longitude], function(){
         EventBus.publish("iqp", iqp);
@@ -166,15 +166,15 @@ class IQPGlobe {
     }.bind(this));
 
 
-    document.getElementById("globeToggle").checked = true;
+    // document.getElementById("globeToggle").checked = true;
 
-    EventBus.subscribe("kiosk", function(isKiosk){
-      if(isKiosk){
-        document.getElementById("show-globe-toggle").classList.add("hidden");
-      } else {
-        document.getElementById("show-globe-toggle").classList.remove("hidden");
-      }
-    }.bind(this));
+    // EventBus.subscribe("kiosk", function(isKiosk){
+    //   if(isKiosk){
+    //     document.getElementById("show-globe-toggle").classList.add("hidden");
+    //   } else {
+    //     document.getElementById("show-globe-toggle").classList.remove("hidden");
+    //   }
+    // }.bind(this));
 
 
   }
@@ -188,23 +188,23 @@ class DetailsPanel {
   constructor(element) {
     this.element = element;
     EventBus.subscribe("iqp", this.showIQP.bind(this));
-    this.qrcode = new QRCodeManager(document.getElementById("detail-qrcode"), "");
+    // this.qrcode = new QRCodeManager(document.getElementById("detail-qrcode"), "");
 
-    EventBus.subscribe("kiosk", function(isKiosk){
-      var iqpURL = document.getElementById("iqp-url");
-      if (isKiosk) {
-        EventBus.publish("qr-code-visible", true);
-        iqpURL.classList.add("hidden");
-      } else {
-        EventBus.publish("qr-code-visible", false);
-        iqpURL.classList.remove("hidden");
-      }
-    }.bind(this));
+    // EventBus.subscribe("kiosk", function(isKiosk){
+    //   var iqpURL = document.getElementById("iqp-url");
+    //   if (isKiosk) {
+    //     EventBus.publish("qr-code-visible", true);
+    //     iqpURL.classList.add("hidden");
+    //   } else {
+    //     EventBus.publish("qr-code-visible", false);
+    //     iqpURL.classList.remove("hidden");
+    //   }
+    // }.bind(this));
   }
 
   showIQP(iqp) {
     EventBus.publish("qr-code", iqp.url);
-    document.getElementById("iqp-url").innerHTML = iqp.url;
+    // document.getElementById("iqp-url").innerHTML = iqp.url;
     document.getElementById("iqp-details").classList.remove("hidden");
     document.getElementById("iqp-list").classList.add("hidden");
     document.getElementById("detail-title").innerHTML = iqp.project;
