@@ -1,0 +1,50 @@
+@font-face {
+    font-family: 'Harry P';
+    src: url('../harry_p/HARRYP__.TTF');
+}
+
+body {
+    font-family: 'Harry P', serif;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background: burlywood;
+    perspective: 1000px;
+}
+
+.page {
+    background-size: contain;
+    background-repeat: no-repeat;
+    /* background-attachment: fixed; */
+    width: calc(100vh / 1.43);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: rotateX(15deg);
+}
+
+.container {
+    max-width: 80%;
+    max-height: 80%;
+    width: 80%;
+    height: 80%;
+    font-size: 48px;
+}
+
+.page:first-child {
+    background-image: linear-gradient(to left, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0)), url('../background.jpg');
+    border-right: 2px solid rgba(0, 0, 0, 0.9);
+    box-shadow: -20px 40px 20px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);   
+}
+
+.page:last-child {
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0)), url('../background_flipped.jpg');
+    border-left: 2px solid rgba(0, 0, 0, 0.9);
+    box-shadow: 40px 40px 20px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);   
+
+}

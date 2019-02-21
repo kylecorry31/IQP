@@ -35,7 +35,10 @@ for(var i = 0;i < books.length; i++) {
     books[i].querySelector('a').style.color = complimentaryColor;
     books[i].querySelector('h1').style.lineHeight = fontSize + 1.5 + "rem";
     books[i].querySelector('p').style.color = complimentaryColor;
-    
+    books[i].addEventListener('mouseover', function(){
+        // var audio = document.getElementById("book_move");
+        // audio.play();
+    })
     availableColors = colors.slice();
     if (Math.random() < 0.9){
         availableColors.splice(availableColors.indexOf(color), 1);
