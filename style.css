@@ -51,6 +51,11 @@ h1 {
     font-family: 'Harry P', serif;
     /* font-size: 3.5rem; */
     letter-spacing: 4px;
+    line-height: 2.5rem;
+}
+
+p {
+    font-size: 24px;
 }
 
 a {

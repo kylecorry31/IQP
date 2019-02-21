@@ -26,11 +26,15 @@ var availableColors = colors.slice();
 
 for(var i = 0;i < books.length; i++) {
     var color = chooseRandom(availableColors);
+    var fontSize = (Math.random()) + 1;
     var complimentaryColor = complimentary(color);
     books[i].style.background = color;
     books[i].style.marginTop = Math.floor(Math.random() * 5) + "px";
-    books[i].style.fontSize = (Math.random()) + 1.5 + "rem";
+    books[i].style.fontSize = fontSize + "rem";
+    books[i].style.minWidth = 50 + Math.random() * 20 + "%";
     books[i].querySelector('a').style.color = complimentaryColor;
+    books[i].querySelector('h1').style.lineHeight = fontSize + 1.5 + "rem";
+    books[i].querySelector('p').style.color = complimentaryColor;
     
     availableColors = colors.slice();
     if (Math.random() < 0.9){
