@@ -7,15 +7,18 @@ body {
     font-family: 'Harry P', serif;
     padding: 0;
     margin: 0;
-    background: burlywood;
+    background: url('../wood.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 .page {
-    background-size: contain;
-    background-repeat: no-repeat;
+    background-size: cover;
+    background-repeat: repeat;
     /* background-attachment: fixed; */
-    width: calc(100vh / 1.43);
-    height: 100vh;
+    width: calc(90vh / 1.43);
+    height: 90vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -67,13 +70,13 @@ h3 {
 }
 
 .page-group > .page:first-child {
-    background-image: linear-gradient(to left, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0)), url('../background.jpg');
+    background-image: linear-gradient(to left, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0)), url('../parchment.jpg');
     border-right: 2px solid rgba(0, 0, 0, 0.9);
     margin-right: -2px;
 }
 
 .page-group > .page:last-child {
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0)), url('../background_flipped.jpg');
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0)), url('../parchment_flipped.jpg');
     border-left: 2px solid rgba(0, 0, 0, 0.9);
 }
 

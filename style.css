@@ -5,7 +5,7 @@
 
 body {
     font-family: 'Harry P', serif;
-    background: burlywood;
+    background: url('parchment.jpg');
     padding: 0;
     margin: 0;
 }
@@ -70,44 +70,12 @@ a {
 
 
 #shelf-bottom {
-    background: saddlebrown;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.1)), url('wood.jpg');
+    background-size: cover;
     width: 100vw;
     height: 25vh;
     position: absolute;
     bottom: 0;
     left: 0;
-    z-index: 0;
-}
-
-#shelf-top {
-    background: saddlebrown;
-    width: 100vw;
-    height:10vh;
-    filter: brightness(90%);
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
-}
-
-#shelf-left {
-    background: burlywood;
-    width: 5vw;
-    height: 100vh;
-    /* filter: brightness(90%); */
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
-}
-
-#shelf-right {
-    background: burlywood;
-    width: 5vw;
-    height: 100vh;
-    /* filter: brightness(90%); */
-    position: absolute;
-    top: 0;
-    right: 0;
     z-index: 0;
 }
