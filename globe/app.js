@@ -146,7 +146,7 @@ class Application {
 class IQPGlobe {
   constructor(elementID) {
     this.selectedIQP = null;
-    this.globe = new Globe(elementID, [42.2745793,-71.8084611], 2, GLOBE_TYPES.GLOBE);
+    this.globe = new Globe(elementID, [42.2745793,-71.8084611], 2, GLOBE_TYPES.WATER_COLOR);
     EventBus.subscribe("iqp-added", function(iqp) {
       if (iqp.location.name === 'WPI'){
         this.globe.addPoint(iqp.id, [iqp.location.latitude, iqp.location.longitude], function(){
@@ -173,7 +173,7 @@ class IQPGlobe {
         var c = earth.getPosition();
         var elapsed = before ? now - before: 0;
         before = now;
-        earth.setCenter([c[0], c[1] + 0.1*(elapsed/30)]);
+        earth.setCenter([c[0], c[1] + 0.1*(elapsed/80)]);
         requestAnimationFrame(animate);
     }.bind(this));
 
