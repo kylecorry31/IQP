@@ -10,7 +10,7 @@ var GLOBE_TYPES = Object.freeze(
 
 var Globe = function(containerID, center, zoom, globe_type = GLOBE_TYPES.GLOBE) {
   var options = {
-    atmosphere: true,
+    atmosphere: false,
     center: center,
     zoom: zoom,
     dragging: true
@@ -102,6 +102,14 @@ var Globe = function(containerID, center, zoom, globe_type = GLOBE_TYPES.GLOBE) 
     // earth.zoomIn(coords.zoom)
   };
 
+  this.setCenter = function(center){
+    earth.setCenter(center);
+  };
+
+  this.getPosition = function(){
+    return earth.getPosition();
+  };
+
   // EventBus.subscribe("globe-center", this.goTo.bind(this));
 };
 
@@ -127,21 +135,7 @@ class Application {
   constructor(){
     var globe = new IQPGlobe("viewDiv");
 
-    var iqpList = new IQPList(document.getElementById("iqp-list"));
-
-    var iqpLoader = new IQPLoader('iqps.csv');
-
-    var idleTimer = new IdleTimer(1000 * 60, goHome);
-
-    var details = new DetailsPanel(document.getElementById("iqp-details"));
-
-    var url = window.location.search.substr(1);
-
-    if (url.indexOf("kiosk") !== -1) {
-        EventBus.publish("kiosk", true);
-    } else {
-      EventBus.publish("kiosk", false);
-    }
+    var iqpLoader = new IQPLoader('locations.csv');
   }
 }
 
@@ -152,11 +146,18 @@ class Application {
 class IQPGlobe {
   constructor(elementID) {
     this.selectedIQP = null;
-    this.globe = new Globe(elementID, [42, -71], 4, GLOBE_TYPES.GLOBE);
+    this.globe = new Globe(elementID, [42.2745793,-71.8084611], 2, GLOBE_TYPES.GLOBE);
     EventBus.subscribe("iqp-added", function(iqp) {
-      this.globe.addPoint(iqp.id, [iqp.location.latitude, iqp.location.longitude], function(){
-        EventBus.publish("iqp", iqp);
-      }, 'iqp-marker.png');
+      if (iqp.location.name === 'WPI'){
+        this.globe.addPoint(iqp.id, [iqp.location.latitude, iqp.location.longitude], function(){
+          EventBus.publish("iqp", iqp);
+        }, 'iqp-marker-selected.png');
+      } else {
+        this.globe.addPoint(iqp.id, [iqp.location.latitude, iqp.location.longitude], function(){
+          EventBus.publish("iqp", iqp);
+        }, 'iqp-marker.png');
+      }
+
     }.bind(this));
 
     EventBus.subscribe("iqp", function(iqp) {
@@ -165,6 +166,16 @@ class IQPGlobe {
       this.globe.addPoint(-1, [iqp.location.latitude, iqp.location.longitude], undefined, 'iqp-marker-selected.png');
     }.bind(this));
 
+    // From http://examples.webglearth.com/#animation
+    var before = null;
+    var earth = this.globe;
+    requestAnimationFrame(function animate(now) {
+        var c = earth.getPosition();
+        var elapsed = before ? now - before: 0;
+        before = now;
+        earth.setCenter([c[0], c[1] + 0.1*(elapsed/30)]);
+        requestAnimationFrame(animate);
+    }.bind(this));
 
     // document.getElementById("globeToggle").checked = true;
 
@@ -301,23 +312,12 @@ class IQPLoader {
         	complete: function(results) {
         		for (var i = 0; i < results.data.length; i++) {
         		  var iqpInfo = results.data[i];
-              if(iqpInfo.project == null){
-                continue;
-              }
               var iqp = {
-                project: iqpInfo.project,
                 location: {
                   name: iqpInfo.place,
                   latitude: iqpInfo.latitude,
                   longitude: iqpInfo.longitude
                 },
-                authors: iqpInfo.authors, // TODO: Add better string splitting
-                advisors: iqpInfo.advisors,
-                sponsor: iqpInfo.sponsor,
-                type: iqpInfo.type,
-                date: iqpInfo.date,
-                description: iqpInfo.description,
-                url: iqpInfo.url,
                 id: i
               };
               this.iqps.push(iqp);
