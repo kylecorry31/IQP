@@ -6,19 +6,65 @@
     <title>Transmedia Through the Ages</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="style.css">
+    <script src="../libs/polaroid/polaroid.js" charset="utf-8"></script>
 </head>
 <body>
-    
+
+  <!-- Blank pages -->
+  <div class="page-group" id="empty-pages">
     <div class="page">
         <div class="container">
-            This is a test
+
         </div>
     </div>
     <div class="page">
         <div class="container">
-              Of the book  
+
         </div>
+    </div>
+  </div>
+
+    <div class="page-group" id="group0">
+      <div class="page">
+          <div class="container">
+            <h3>Video Cameras</h3>
+            <p>Media Classification: Video</p>
+            <p>Video cameras are available in the Global Lab or through the ATC as well as equipment training.</p>
+            <polaroid-photo src="../photos/video.gif"></polaroid-photo>
+          </div>
+      </div>
+      <div class="page">
+          <div class="container">
+            <h3>Microphones / Audio Recorders</h3>
+            <p>Media Classification: Audio</p>
+            <p>Microphones are available in the Global Lab and the ATC, and the Global Lab offers Podcast training as well.</p>
+            <polaroid-photo src="../photos/audio.gif"></polaroid-photo>
+          </div>
+      </div>
+    </div>
+
+    <div class="page-group hidden" id="group1">
+      <div class="page">
+          <div class="container">
+            <h3>Website Editors</h3>
+            <p>Media Classification: Website</p>
+            <p>WordPress sites are available through Marketing for student projects, with a faculty/staff sponsor. Every student also gets their own personal website, located at users.wpi.edu/~username.</p>
+            <polaroid-photo src="../photos/website.gif" filter="sepia(100%) brightness(160%)"></polaroid-photo>
+          </div>
+      </div>
+      <div class="page">
+          <div class="container">
+            <h3>Still Cameras</h3>
+            <p>Media Classification: Photograph</p>
+            <p>Cameras can be checked out from the ATC, and the Global Lab has field kits available for use. Professional photo editing software is available through several labs.</p>
+            <polaroid-photo src="https://cdn2.techadvisor.co.uk/cmsdata/reviews/3684089/gopro_hero_7_black_review_2.jpg"></polaroid-photo>
+            <br>
+            <small>Photo credit: Chris Martin / TechAdvisor</small>
+          </div>
+      </div>
     </div>
 
 </body>
+<script src="script.js" charset="utf-8"></script>
+
 </html>
