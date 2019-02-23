@@ -84,3 +84,10 @@ small {
   font-size: 16px;
   display: block;
 }
+
+#ball {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
