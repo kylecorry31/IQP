@@ -37,6 +37,12 @@ function fortune(string, length){
 	this.string = string;
   this.length = length;
   this.magnitude = random(0, length);
+  this.flashing = 0;
+  this.opacity = 0;
+  var max_on_time = random(400, 800);
+  var max_off_time = max_on_time;
+  this.next_transition = Math.floor(random(0, max_off_time));
+  
 	
 	this.nextPos = function(){
 		var angle = map(noise(this.wordAng), 0, 1, 0, PI * 4);
@@ -52,12 +58,37 @@ function fortune(string, length){
 	}
 	
 	this.draw = function(){
-		var pos = this.nextPos(this.length);
+    if(this.next_transition <= 0){
+
+      if(this.flashing){
+        this.next_transition = Math.floor(random(0, max_off_time));
+      } else {
+        this.next_transition = Math.floor(random(0, max_on_time));
+      }
+
+      this.flashing = !this.flashing;
+    }
+
+    if(this.flashing){
+      this.opacity += 0.02;
+      this.opacity = clip(this.opacity, 0, 1);
+    } else {
+      this.opacity -= 0.02;
+      this.opacity = clip(this.opacity, 0, 1);
+    }
+    var pos = this.nextPos(this.length);
+    fill(255, 255, 255, Math.floor(255 * this.opacity));
     textAlign(CENTER, CENTER);
     textSize(24);
-		text(this.string, pos[0] + width/2, pos[1] + 100);
+    textFont("Harry P");
+    text(this.string, pos[0] + width/2, pos[1] + 100);
+    this.next_transition--;
 	}
 	
+}
+
+function clip(value, min, max){
+  return Math.max(Math.min(value, max), min);
 }
 
 function preload() {
@@ -70,16 +101,16 @@ function setup() {
 	wordAng = 0;
 	wordMag = 10;
 	words.push(new fortune('IQP', 80));
-	words.push(new fortune('Courses', 50));
-	words.push(new fortune('Workshops', 40));
+	words.push(new fortune('Classes', 50));
+	words.push(new fortune('Training', 40));
+	words.push(new fortune('Display', 40));
+	words.push(new fortune('Guide', 40));
 }
 
 function draw() {
   clear();
   background(img);
 	noStroke();
-	fill(0, 0, 0,127);
-	fill(255);
 	words.forEach(function(word){
 		word.draw();
 	});

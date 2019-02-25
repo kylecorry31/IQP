@@ -92,3 +92,16 @@ small {
   justify-content: center;
   filter: sepia(100%) brightness(80%);
 }
+
+ul {
+  font-size: 42px;
+}
+
+li {
+  margin-bottom: 16px;
+}
+
+a {
+  color: #d99923;
+  text-decoration: none;
+}

@@ -29,6 +29,7 @@ body {
 .hidden {
   /* display: none !important; */
   opacity: 0;
+  visibility: hidden;
 }
 
 .container {
@@ -94,4 +95,9 @@ ul {
   height: auto;
   opacity: 0.8;
   filter: sepia(50%);
+}
+
+a {
+  color: #d99923;
+  text-decoration: none;
 }

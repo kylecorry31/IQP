@@ -29,6 +29,7 @@ body {
 .hidden {
   /* display: none !important; */
   opacity: 0;
+  visibility: hidden;
 }
 
 .container {
@@ -95,4 +96,9 @@ li {
 
 iframe {
   filter: sepia(50%);
+}
+
+a {
+  color: #d99923;
+  text-decoration: none;
 }
