@@ -84,3 +84,15 @@ small {
   font-size: 16px;
   display: block;
 }
+
+ul {
+  font-size: 42px;
+}
+
+li {
+  margin-bottom: 16px;
+}
+
+iframe {
+  filter: sepia(50%);
+}
