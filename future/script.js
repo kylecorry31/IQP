@@ -35,11 +35,12 @@ function fortune(string, length){
 	this.wordAng = random(1000);
 	this.wordMag = random(1000);
 	this.string = string;
-	this.length = length;
+  this.length = length;
+  this.magnitude = random(0, length);
 	
 	this.nextPos = function(){
-		var angle = map(noise(this.wordAng), 0, 1, 0, PI * 2);
-		var magnitude = map(noise(this.wordMag), 0, 1, 0, this.length);
+		var angle = map(noise(this.wordAng), 0, 1, 0, PI * 4);
+		var magnitude = map(noise(this.wordMag), 0, 1, 10, this.length);
 
 		var x = cos(angle) * magnitude;
 		var y = sin(angle) * magnitude;
@@ -52,14 +53,15 @@ function fortune(string, length){
 	
 	this.draw = function(){
 		var pos = this.nextPos(this.length);
-		textAlign(CENTER, CENTER);
-		text(this.string, pos[0] + width/2, pos[1] + height/2);
+    textAlign(CENTER, CENTER);
+    textSize(24);
+		text(this.string, pos[0] + width/2, pos[1] + 100);
 	}
 	
 }
 
 function preload() {
-  img = loadImage('../parchment.jpg');
+  img = loadImage('ball.png');
 }
 
 function setup() {
@@ -67,17 +69,16 @@ function setup() {
   myCanvas.parent('ball');
 	wordAng = 0;
 	wordMag = 10;
-	words.push(new fortune('IQP', width/2 * 0.9));
-	words.push(new fortune('Courses', width/2 * 0.75));
-	words.push(new fortune('Workshops', width/2 * 0.6));
+	words.push(new fortune('IQP', 80));
+	words.push(new fortune('Courses', 50));
+	words.push(new fortune('Workshops', 40));
 }
 
 function draw() {
-  background(0,0,0,0);
   clear();
+  background(img);
 	noStroke();
 	fill(0, 0, 0,127);
-  circle(width/2, height/2, width/2);
 	fill(255);
 	words.forEach(function(word){
 		word.draw();

@@ -90,4 +90,5 @@ small {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  filter: sepia(100%) brightness(80%);
 }
