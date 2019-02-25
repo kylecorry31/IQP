@@ -112,3 +112,9 @@ a {
   color: #d99923;
   text-decoration: none;
 }
+
+img {
+  width: 100%;
+  height: auto;
+  /* filter: sepia(50%) brightness(80%); */
+}
