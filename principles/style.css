@@ -88,3 +88,10 @@ small {
 ul {
   font-size: 42px;
 }
+
+.shield {
+  width: 100%;
+  height: auto;
+  opacity: 0.8;
+  filter: sepia(50%);
+}
