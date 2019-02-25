@@ -5,8 +5,13 @@ document.body.addEventListener('keypress', function(event){
     pageID--;
     var page = document.getElementById('group' + pageID);
     if (page){
+      var pages = document.getElementsByClassName('page-group');
       document.getElementById('group' + (pageID + 1)).classList.add('hidden');
       setTimeout(function () {
+        for (var i = 0; i < pages.length; i++){
+          if(pages[i].id != "empty-pages")
+            pages[i].classList.add('hidden');
+        }
         page.classList.remove('hidden');
       }, 1000);
     } else {
@@ -16,8 +21,13 @@ document.body.addEventListener('keypress', function(event){
     pageID++;
     var page = document.getElementById('group' + pageID);
     if (page){
+      var pages = document.getElementsByClassName('page-group');
       document.getElementById('group' + (pageID - 1)).classList.add('hidden');
       setTimeout(function () {
+        for (var i = 0; i < pages.length; i++){
+          if(pages[i].id != "empty-pages")
+            pages[i].classList.add('hidden');
+        }
         page.classList.remove('hidden');
       }, 1000);
     } else {
