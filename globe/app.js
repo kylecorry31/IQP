@@ -133,6 +133,11 @@ function displayGlobeStateChanged() {
 
 class Application {
   constructor(){
+    document.body.addEventListener('keypress', function(event){
+      if (event.key == 'q'){
+        window.history.back();
+      }  
+    });
     var globe = new IQPGlobe("viewDiv");
 
     var iqpLoader = new IQPLoader('locations.csv');

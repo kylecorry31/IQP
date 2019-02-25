@@ -6,11 +6,7 @@ document.body.addEventListener('keypress', function(event){
     var page = document.getElementById('group' + pageID);
     if (page){
       document.getElementById('group' + (pageID + 1)).classList.add('hidden');
-      var pages = document.getElementsByClassName('page-group');
       setTimeout(function () {
-        for (var i = 0; i < pages.length; i++){
-          pages[i].classList.add('hidden');
-        }
         page.classList.remove('hidden');
       }, 1000);
     } else {
@@ -20,12 +16,8 @@ document.body.addEventListener('keypress', function(event){
     pageID++;
     var page = document.getElementById('group' + pageID);
     if (page){
-      var pages = document.getElementsByClassName('page-group');
       document.getElementById('group' + (pageID - 1)).classList.add('hidden');
       setTimeout(function () {
-        for (var i = 0; i < pages.length; i++){
-          pages[i].classList.add('hidden');
-        }
         page.classList.remove('hidden');
       }, 1000);
     } else {
@@ -34,4 +26,6 @@ document.body.addEventListener('keypress', function(event){
   } else if (event.key == 'q'){
     window.history.back();
   }  
+
+
 });

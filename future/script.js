@@ -23,7 +23,9 @@ document.body.addEventListener('keypress', function(event){
     } else {
       pageID--;
     }
-  }
+  } else if (event.key == 'q'){
+    window.history.back();
+  }  
 });
 
 let img;
